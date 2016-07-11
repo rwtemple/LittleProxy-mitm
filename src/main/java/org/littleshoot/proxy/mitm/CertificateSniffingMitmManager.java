@@ -7,6 +7,7 @@ import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 
+import io.netty.channel.ChannelHandlerContext;
 import org.littleshoot.proxy.MitmManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,11 @@ public class CertificateSniffingMitmManager implements MitmManager {
             throw new FakeCertificateException(
                     "Creation dynamic certificate failed", e);
         }
+    }
+
+    @Override
+    public boolean useForRequest(HttpRequest httpRequest, ChannelHandlerContext ctx) {
+        return true;
     }
 
     private X509Certificate getCertificateFromSession(SSLSession sslSession)
